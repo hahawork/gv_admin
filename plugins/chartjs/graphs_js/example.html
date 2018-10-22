@@ -1,0 +1,187 @@
+<html>
+    <head>
+        <title>HTML-Graphs Example</title>
+        <style> <!--
+            BODY, P, SPAN, DIV, TABLE, TD, TH, UL, OL, LI {
+                font-family: Arial, Helvetica;
+                font-size: 12px;
+                color: black;
+            }
+            H4 {
+                font-family: Arial, Helvetica;
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+            INPUT, SELECT, TEXTAREA {
+                font-family: Arial, Helvetica;
+                font-size: 12px;
+            }
+            --> </style>
+        <script type="text/javascript" src="graphs.js"></script>
+        <script type="text/javascript"> <        !--
+function createGraph(                ) {
+        var f = document.                f1;
+        if (f.graphValues.value != ''                    ) {
+            var graphBarWidth = isNaN(parseInt(f.graphBarWidth.value)) ? 0 : parseInt(f.graphBarWidth.valu                    e);
+            var graphBarLength = isNaN(parseFloat(f.graphBarLength.value)) ? 1.0 : parseFloat(f.graphBarLength.valu                    e);
+            var graphLabelSize = isNaN(parseInt(f.graphLabelSize.value)) ? 0 : parseInt(f.graphLabelSize.valu                    e);
+            var graphValuesSize = isNaN(parseInt(f.graphValuesSize.value)) ? 0 : parseInt(f.graphValuesSize.valu                    e);
+            var graphPercSize = isNaN(parseInt(f.graphPercSize.value)) ? 0 : parseInt(f.graphPercSize.valu                    e);
+            var graphPadding = isNaN(parseInt(f.graphPadding.value)) ? 0 : parseInt(f.graphPadding.value                    );
+
+            var graph = new BAR_GRAPH(f.graphType.options[f.graphType.selectedIndex].valu                    e);
+            graph.values = f.graphValues.val                    ue;
+            graph.labels = f.graphLabels.val                    ue;
+            graph.showValues = f.graphShowValues.options[f.graphShowValues.selectedIndex].val                    ue;
+            graph.barWidth = graphBarWid                    th;
+            graph.barLength = graphBarLeng                    th;
+            graph.labelSize = graphLabelSi                    ze;
+            graph.absValuesSize = graphValuesSi                    ze;
+            graph.percValuesSize = graphPercSi                    ze;
+            graph.graphPadding = graphPaddi                    ng;
+            graph.graphBGColor = f.graphBGColor.val                    ue;
+            graph.graphBorder = f.graphBorder.val                    ue;
+            graph.barColors = f.graphBarColor.val                    ue;
+            graph.barBGColor = f.graphBarBGColor.val                    ue;
+            graph.barBorder = f.graphBarBorder.val                    ue;
+            graph.labelColor = f.graphLabelColor.val                    ue;
+            graph.labelBGColor = f.graphLabelBGColor.val                    ue;
+            graph.labelBorder = f.graphLabelBorder.val                    ue;
+            graph.absValuesColor = f.graphValuesColor.val                    ue;
+            graph.absValuesBGColor = f.graphValuesBGColor.val                    ue;
+            graph.absValuesBorder = f.graphValuesBorder.val                    ue;
+            document.getElementById('divGraph').innerHTML = graph.create(                    );
+
+            f.txtCode.valu                            e =
+                    'var graph = new BAR_GRAPH("' + f.graphType.options[f.graphType.selectedIndex].value + '");\n                            ' +
+                    'graph.values = "' + f.graphValues.value + '";\n                            ' +
+                    'graph.labels = "' + f.graphLabels.value + '";\n                            ' +
+                    'graph.showValues = ' + f.graphShowValues.options[f.graphShowValues.selectedIndex].value + ';\n                            ' +
+                    'graph.barWidth = ' + graphBarWidth + ';\n                            ' +
+                    'graph.barLength = ' + graphBarLength + ';\n                            ' +
+                    'graph.labelSize = ' + graphLabelSize + ';\n                            ' +
+                    'graph.absValuesSize = ' + graphValuesSize + ';\n                            ' +
+                    'graph.percValuesSize = ' + graphPercSize + ';\n                            ' +
+                    'graph.graphPadding = ' + graphPadding + ';\n                            ' +
+                    'graph.graphBGColor = "' + f.graphBGColor.value + '";\n                            ' +
+                    'graph.graphBorder = "' + f.graphBorder.value + '";\n                            ' +
+                    'graph.barColors = "' + f.graphBarColor.value + '";\n                            ' +
+                    'graph.barBGColor = "' + f.graphBarBGColor.value + '";\n                            ' +
+                    'graph.barBorder = "' + f.graphBarBorder.value + '";\n                            ' +
+                    'graph.labelColor = "' + f.graphLabelColor.value + '";\n                            ' +
+                    'graph.labelBGColor = "' + f.graphLabelBGColor.value + '";\n                            ' +
+                    'graph.labelBorder = "' + f.graphLabelBorder.value + '";\n                            ' +
+                    'graph.absValuesColor = "' + f.graphValuesColor.value + '";\n                            ' +
+                    'graph.absValuesBGColor = "' + f.graphValuesBGColor.value + '";\n                            ' +
+                    'graph.absValuesBorder = "' + f.graphValuesBorder.value + '";\n                            ' +
+                    'document.write(graph.create())                ;';
+        } e                    lse
+            alert('No values!            ');
+          }
+//--> </scri        pt>
+</he        ad>
+<body marginwidth="10" marginheight="10" topmargin="10" leftmargin="10" onLoad="createGraph(            )">
+<form name="f1" action="javascript:createGraph()" method="pos                t">
+<table border="0" cellspacing="0" cellpadding="2" width="95%"><                        tr>
+<td colspan="2">This is an example page for HTML-Graphs. Click "Create Graph" and see how the gr                            aph
+looks different each time you change the form fields:</                    td>
+</tr><tr valign="top" bgcolor="#E0F0F                        F">
+<td align="lef                            t">
+  <table border="0" cellspacing="0" cellpadding="1"><                                    tr>
+  <td align="right">Graph Type:</                                    td>
+  <td><select name="graphType" style="width:100p                                            x">
+  <option value="hBar" selected>horizon                                            tal
+  <option value="vBar">verti                                        cal
+  </select></                                td>
+  </tr><                                    tr>
+  <td align="right">Show Values:</                                    td>
+  <td><select name="graphShowValues" style="width:100p                                            x">
+  <option value="0">% o                                            nly
+  <option value="1" selected>abs. an                                            d %
+  <option value="2">abs. o                                            nly
+  <option value="3">n                                        one
+  </select></                                td>
+  </tr><                                    tr>
+  <td align="right">Values (comma-separated):</                                    td>
+  <td><input type="text" name="graphValues" maxlength="200" style="width:220px" value="123,456,789,987,654,321"></                                td>
+  </tr><                                    tr>
+  <td align="right">Labels (comma-separated):</                                    td>
+  <td><input type="text" name="graphLabels" maxlength="200" style="width:220px" value="Horses,Dogs,Cats,Birds,Pigs,Cows"></                                td>
+  </tr><                                    tr>
+  <td align="right">Bars Width:</                                    td>
+  <td><input type="text" name="graphBarWidth" maxlength="3" style="width:30px" value="20"></                                td>
+  </tr><                                    tr>
+  <td align="right">Bars Length Ratio (0.1 - 2.9):</                                    td>
+  <td><input type="text" name="graphBarLength" maxlength="3" style="width:30px" value="1.0"></                                td>
+  </tr><                                    tr>
+  <td align="right">Labels Font Size:</                                    td>
+  <td><input type="text" name="graphLabelSize" maxlength="2" style="width:30px" value="12"></                                td>
+  </tr><                                    tr>
+  <td align="right">Values Font Size:</                                    td>
+  <td><input type="text" name="graphValuesSize" maxlength="2" style="width:30px" value="12"></                                td>
+  </tr><                                    tr>
+  <td align="right">Percentage Font Size:</                                    td>
+  <td><input type="text" name="graphPercSize" maxlength="2" style="width:30px" value="12"></                                td>
+  </tr><                                    tr>
+  <td align="right">Graph Padding:</                                    td>
+  <td><input type="text" name="graphPadding" maxlength="2" style="width:30px" value="10"></                                td>
+  </tr><                                    tr>
+  <td colspan="2">&nbsp;</                                td>
+  </tr><                                    tr>
+  <td colspan="2" align="lef                                        t">
+  <input type="reset" value="Reset" style="width:120px; font-weight:bold" onClick="setTimeout('document.f1.submit()', 100                                        )">
+  &nbsp; <input type="submit" value="Create Graph" style="width:120px; font-weight:bold"></                                td>
+  </tr></tab                        le>
+</                        td>
+<td align="righ                            t">
+  <table border="0" cellspacing="0" cellpadding="1"><                                    tr>
+  <td align="right">Graph BG Color:</                                    td>
+  <td><input type="text" name="graphBGColor" size="14" maxlength="14" value="#ABCDEF"></                                td>
+  </tr><                                    tr>
+  <td align="right">Graph Border:</                                    td>
+  <td><input type="text" name="graphBorder" size="14" maxlength="30" value="1px solid blue"></                                td>
+  </tr><                                    tr>
+  <td align="right">Bars Color:</                                    td>
+  <td><input type="text" name="graphBarColor" size="14" maxlength="14" value="#A0C0F0"></                                td>
+  </tr><                                    tr>
+  <td align="right">Bars BG Color:</                                    td>
+  <td><input type="text" name="graphBarBGColor" size="14" maxlength="14" value="#E0F0FF"></                                td>
+  </tr><                                    tr>
+  <td align="right">Bars Border:</                                    td>
+  <td><input type="text" name="graphBarBorder" size="14" maxlength="30" value="2px outset white"></                                td>
+  </tr><                                    tr>
+  <td align="right">Labels Color:</                                    td>
+  <td><input type="text" name="graphLabelColor" size="14" maxlength="14" value="#000000"></                                td>
+  </tr><                                    tr>
+  <td align="right">Labels BG Color:</                                    td>
+  <td><input type="text" name="graphLabelBGColor" size="14" maxlength="14" value="#C0E0FF"></                                td>
+  </tr><                                    tr>
+  <td align="right">Labels Border:</                                    td>
+  <td><input type="text" name="graphLabelBorder" size="14" maxlength="30" value="2px groove white"></                                td>
+  </tr><                                    tr>
+  <td align="right">Values Color:</                                    td>
+  <td><input type="text" name="graphValuesColor" size="14" maxlength="14" value="#000000"></                                td>
+  </tr><                                    tr>
+  <td align="right">Values BG Color:</                                    td>
+  <td><input type="text" name="graphValuesBGColor" size="14" maxlength="14" value="#FFFFFF"></                                td>
+  </tr><                                    tr>
+  <td align="right">Values Border:</                                    td>
+  <td><input type="text" name="graphValuesBorder" size="14" maxlength="30" value="2px groove white"></                                td>
+  </tr></tab                        le>
+</                    td>
+</tr></table><                br>
+<table border="0" cellspacing="0" cellpadding="0" width="100%"><tr valign="to                        p">
+<                            td>
+<h4>Graph</                            h4>
+<div id="divGraph"></d                        iv>
+</                        td>
+<td width="10">&nbsp;</                        td>
+<                            td>
+<h4>Code</                            h4>
+<textarea name="txtCode" wrap="off" style="width:330px; height:180px                            ;">
+</textar                        ea>
+</                    td>
+</tr></tab            le>
+</fo        rm>
+</bo    dy>
+</html>

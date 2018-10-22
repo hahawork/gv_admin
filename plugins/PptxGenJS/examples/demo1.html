@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <title>PptxGenJS Examples/Demo Page</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
+        <meta name="author" content="https://github.com/gitbrent">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300|Roboto+Mono|Open+Sans" rel="stylesheet">
+        <!-- IE11 Users: - Use the following 3 lines instead of the one above
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100"  rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300"  rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans"   rel="stylesheet">
+        -->
+        <link type="text/css" rel="stylesheet" href="pptxgenjs-demo.css">
+
+        <!-- NOTE:
+                1) Running this on your local PC requires Chrome be run from the console/terminal in order to allow reading local image files
+                        $ open -a 'Google Chrome' -\-args -\-allow-file-access-from-files &
+                        (Otherwise you will receive: "Tainted canvases may not be exported" message in console)
+                2) IE11 will show an "Active-X blocked on this page, do you want to allow?" secuirty dialog when run locally (run from server to remedy)
+        -->
+
+        <!-- vvv PptxGenJS libraries (jquery/jszip/pptxgen are required) vvv -->
+        <script type="text/javascript" src="../libs/jquery.min.js"></script>
+        <script type="text/javascript" src="../libs/jszip.min.js"></script>
+        <script type="text/javascript" src="../libs/promise.min.js"></script>     <!-- optional if not using IE11 -->
+        <script type="text/javascript" src="../dist/pptxgen.colors.js"></script>  <!-- optional if you dont need PPT Color Schemes -->
+        <script type="text/javascript" src="../dist/pptxgen.shapes.js"></script>  <!-- optional if you dont need non-core Shapes -->
+        <!--<script type="text/javascript" src="../dist/pptxgen.masters.js"></script> DEPRECATED/LEGACY-TEST-ONLY -->
+        <script type="text/javascript" src="../dist/pptxgen.js"></script>
+        <!-- ^^^ PptxGenJS libraries ^^^ -->
+
+        <script type="text/javascript" src="../examples/pptxgenjs-demo.js"></script>
+        <script type="text/javascript" src="images/base64Images.js"></script>
+        <script type="text/javascript" src="media/base64media.js"></script>
+        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
+
+        <script type="text/javascript">
+            // ==================================================================================================================
+
+            function doNav(intTab) {
+                location.href = 'demo1.html#tab' + intTab;
+
+                doNavRestore();
+            }
+
+            function doNavRestore() {
+                if (window.location.href.toLowerCase().indexOf('#tab') > -1) {
+                    var tabNum = window.location.href.toLowerCase().split('#tab')[1];
+
+                    $('#navTabs').find('> div, li').removeClass('active');
+                    $('#navTabs li#nav' + tabNum).addClass('active');
+                    $('#tab' + tabNum).addClass('active');
+                }
+            }
+
+            function doTestSimple() {
+                var pptx = new PptxGenJS();
+                var slide = pptx.addNewSlide();
+                var optsTitle = {color: '9F9F9F', marginPt: 3, border: [0, 0, {pt: '1', color: 'CFCFCF'}, 0]};
+
+                pptx.setLayout({name: 'A3', width: 16.5, height: 11.7});
+
+                slide.slideNumber({x: 0.5, y: '90%'});
+
+                slide.addTable([[{text: 'Simple Example', options: optsTitle}]], {x: 0.5, y: 0.13, w: 12.5});
+
+                //slide.addText('Hello World!', { x:0.5, y:0.7, w:6, h:1, color:'0000FF' });
+                slide.addText('Hello 45! ', {x: 0.5, y: 0.5, w: 6, h: 1, font_size: 36, color: '0000FF', shadow: {type: 'outer', color: '00AAFF', blur: 2, offset: 10, angle: 45, opacity: 0.25}});
+                slide.addText('Hello 180!', {x: 0.5, y: 1.0, w: 6, h: 1, font_size: 36, color: '0000FF', shadow: {type: 'outer', color: 'ceAA00', blur: 2, offset: 10, angle: 180, opacity: 0.5}});
+                slide.addText('Hello 355!', {x: 0.5, y: 1.5, w: 6, h: 1, font_size: 36, color: '0000FF', shadow: {type: 'outer', color: 'aaAA33', blur: 2, offset: 10, angle: 355, opacity: 0.75}});
+
+                // Bullet Test: Number
+                slide.addText(999, {x: 0.5, y: 2.0, w: '50%', h: 1, color: '0000DE', bullet: true});
+                // Bullet Test: Text test
+                slide.addText('Bullet text', {x: 0.5, y: 2.5, w: '50%', h: 1, color: '00AA00', bullet: true});
+                // Bullet Test: Multi-line text test
+                slide.addText('Line 1\nLine 2\nLine 3', {x: 0.5, y: 3.5, w: '50%', h: 1, color: 'AACD00', bullet: true});
+
+                // Table cell margin:0
+                slide.addTable([['margin:0']], {x: 0.5, y: 1.1, margin: 0, w: 0.75, fill: 'FFFCCC'});
+
+                // Fine-grained Formatting/word-level/line-level Formatting
+                slide.addText(
+                        [
+                            {text: 'right line', options: {font_size: 24, font_face: 'Courier New', color: '99ABCC', align: 'r', breakLine: true}},
+                            {text: 'ctr line', options: {font_size: 36, font_face: 'Arial', color: 'FFFF00', align: 'c', breakLine: true}},
+                            {text: 'left line', options: {font_size: 48, font_face: 'Verdana', color: '0088CC', align: 'l'}}
+                        ],
+                        {x: 0.5, y: 3.0, w: 8.5, h: 4, margin: 0.1, fill: '232323'}
+                );
+
+                // Export:
+                pptx.save('Sample Presentation');
+            }
+
+            /* The "Text" demo on the PptxGenJS homepage - codified here so we can quickly reproduce the screencaps, etc. as needed */
+            function doHomepageDemo_Text() {
+                var pptx = new PptxGenJS();
+                pptx.setLayout('LAYOUT_WIDE');
+                var slide = pptx.addNewSlide();
+
+                slide.addText(
+                        'BONJOUR - CIAO - GUTEN TAG - HELLO - HOLA - \nNAMASTE - OLÀ - ZDRAS-TVUY-TE - こんにちは - 你好',
+                        {x: 0.0, y: 0.0, w: '100%', h: 1.25, align: 'c', font_size: 18, color: '0088CC', fill: 'F1F1F1'}
+                );
+
+                slide.addText("Line-Level Formatting:", {x: 0.5, y: 1.5, w: '40%', h: 0.38, color: '0088CC'});
+                slide.addText(
+                        [
+                            {text: '1st line', options: {font_size: 24, font_face: 'Courier New', color: '99ABCC', align: 'r', breakLine: true}},
+                            {text: '2nd line', options: {font_size: 36, font_face: 'Arial', color: 'FFFF00', align: 'c', breakLine: true}},
+                            {text: '3rd line', options: {font_size: 48, font_face: 'Verdana', color: '0088CC', align: 'l'}}
+                        ],
+                        {x: 0.5, y: 2.0, w: 6, h: 2.25, margin: 0.1, fill: '232323'}
+                );
+
+                slide.addText("Bullets: Normal", {x: 8.0, y: 1.5, w: '40%', h: 0.38, color: '0088CC'});
+                slide.addText(
+                        'Line 1\nLine 2\nLine 3',
+                        {x: 8.0, y: 2.0, w: '30%', h: 1, color: '393939', font_size: 16, fill: 'F2F2F2', bullet: true}
+                );
+
+                slide.addText("Bullets: Numbered", {x: 8.0, y: 3.4, w: '40%', h: 0.38, color: '0088CC'});
+                slide.addText(
+                        'Line 1\nLine 2\nLine 3',
+                        {x: 8.0, y: 3.9, w: '30%', h: 1, color: '393939', font_size: 16, fill: 'F2F2F2', bullet: {type: 'number'}}
+                );
+
+                slide.addText("Bullets: Custom", {x: 8.0, y: 5.3, w: '40%', h: 0.38, color: '0088CC'});
+                slide.addText('Star bullet! ', {x: 8.0, y: 5.6, w: '40%', h: 0.38, color: 'CC0000', bullet: {code: '2605'}});
+                slide.addText('Check bullet!', {x: 8.0, y: 5.9, w: '40%', h: 0.38, color: '00CD00', bullet: {code: '2713'}});
+
+                var shadowOpts = {type: 'outer', color: '696969', blur: 3, offset: 10, angle: 45, opacity: 0.8};
+                slide.addText("Text Shadow:", {x: 0.5, y: 6.0, w: '40%', h: 0.38, color: '0088CC'});
+                slide.addText(
+                        'Outer Shadow (blur:3, offset:10, angle:45, opacity:80%)',
+                        {x: 0.5, y: 6.4, w: 12, h: 0.6, font_size: 32, color: '0088cc', shadow: shadowOpts}
+                );
+
+                pptx.save('Demo-Text');
+            }
+
+            function doTablePagingLogicCheck() {
+                var pptx = new PptxGenJS();
+                var slide = pptx.addNewSlide();
+                slide.addText('Table Paging Logic Check', {x: 0.0, y: '90%', w: '100%', align: 'c', font_size: 18, color: '0088CC', fill: 'F2F9FC'});
+
+                var numMargin = 1.25;
+                slide.addShape(pptx.shapes.RECTANGLE, {x: 0.0, y: 0.0, w: numMargin, h: numMargin, fill: 'FFFCCC'});
+                slide.addTable(['short', 'table', 'whatever'], {x: numMargin, y: numMargin, margin: numMargin, colW: 2.5, fill: 'F1F1F1'});
+
+                pptx.save('PptxGenJs-TablePagingLogicCheck');
+            }
+
+            function buildDataTable() {
+                // STEP 1:
+                $('#tabAutoPaging tbody').empty();
+
+                // STEP 2:
+                for (var idx = 0; idx < $('#numTab2SlideRows').val(); idx++) {
+                    var strHtml = '<tr>'
+                            + '<td style="text-align:center">' + (idx + 1) + '</td>'
+                            + '<td>' + gArrNamesL[ Math.floor(Math.random() * 10) ] + '</td>'
+                            + '<td>' + gArrNamesF[ Math.floor(Math.random() * 10) ] + '</td>'
+                            + '<td>Text:<br>' + gStrLoremIpsum.substring(0, (Math.floor(Math.random() * 10) + 2) * 130) + '</td>'
+                            + '</tr>';
+                    $('#tabAutoPaging tbody').append(strHtml);
+                }
+
+                // STEP 3: Add some style to table for testing
+                // TEST Padding
+                $('#tabAutoPaging thead th').css('padding', '10px 5px');
+                // TEST font-size/auto-paging
+                $('#tabAutoPaging tbody tr:first-child td:last-child').css('font-size', '12px');
+                $('#tabAutoPaging tbody tr:last-child td:last-child').css('font-size', '16px');
+            }
+
+         
+        </script>
+    </head>
+    <body>
+      
+        <div id="contBody">
+           
+            <div id="navTabs" class="modernTabs">
+                <ul>                    
+                    <li id="nav3" onclick="doNav(3)">Images &amp; Media</li>                    
+                </ul>
+
+                <div id="tab3" data-title="Images/Media">
+                    <div id="jsLocalFile" class="highlightBox" style="display:none;">
+                        <div style="font-size:1.5em">LOCAL FILE ACCESS DETECTED</div>
+                        <ul>
+                            <li>Web browsers will not allow local file access, meaning images using `path:` cannot be read when running this locally</li>
+                            <li>Note that some demo slide images will show the missing image icon</li>
+                            <li>ProTip: Use the <tt>--allow-file-access-from-files</tt> flag with Chrome, et al. to test with local image files</li>
+                        </ul>
+                    </div>
+                    <div class="sectionTitle" style="cursor:pointer" title="Click to Show/Hide" onclick="$(this).next('div').toggle('slow'); $(this).find('.arrow').toggleClass('active');">
+                        <div class="arrow active"></div>Images &amp; Media
+                    </div>
+                    <div class="sectionBox">                        
+                        <div>
+                            <input type="button" class="flatBtn flatBtn-green" value="Generate Demo Presentation" onclick="execGenSlidesFuncs(['Image', 'Media'])">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

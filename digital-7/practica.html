@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <title>Solmafaro</title>  
+
+        <style>
+
+            @font-face {
+                font-family: 'digits';
+                src: url('digital.ttf') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
+    
+            /* Semáforo CSS vertical */
+            ul.semaforo {
+                display: inline-block;
+                position: relative;
+                width: auto;
+                height: auto;
+                margin: 30px 40px;
+                padding: 15px;
+                list-style-type: none;
+                border: 6px double grey;
+                background: grey;
+                /*background: linear-gradient( -90deg, #45484d 0%, #0000FF 100%);*/
+                border-radius: 20%;
+                box-shadow: 0px 0px 0 20px rgba(0,0,0,.8);
+            }
+            ul.semaforo li {
+                float: left;
+                position:relative;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: white;
+                margin: 5px;
+                background: linear-gradient(top, rgba(187,187,187,1) 0%,rgba(119,119,119,1) 99%);
+                box-shadow: inset 0 -5px 15px rgba(255,255,255,0.4),
+                    inset -2px -1px 40px rgba(0,0,0,0.4),
+                    0 0 1px #000;
+            }
+            ul.semaforo li:after {
+                content: "";
+                width: 60px;
+                height: 30px;
+                position: absolute;
+                left: 20px;
+                top: 10px;
+                box-shadow: 0px 0 20px 35px rgba(20,20,20,.1);
+                border-radius: 30px / 15px;
+            }
+            .verde li:nth-of-type(1) {
+                background: #00ff00;
+                box-shadow:
+                    0 0 20px 5px #2efe2e,
+                    0 0 40px 10px #58FA58,
+                    0 0 80px 15px #81F781;
+            }
+            .amarillo li:nth-of-type(2){
+                background: #ffff00;
+                box-shadow:
+                    0 0 20px 5px #F7FE2E,
+                    0 0 40px 10px #F4FA58,
+                    0 0 80px 15px #F3F781;
+            }
+            .naranja li:nth-of-type(3) {
+                background: #FFBF00;
+                box-shadow:
+                    0 0 20px 5px #FACC2E,
+                    0 0 40px 10px #F7D358,
+                    0 0 80px 15px #F5DA81;
+            }
+            .rojo li:nth-of-type(4) {
+                background: #ff0000;
+                box-shadow:
+                    0 0 20px 5px #FE2E2E,
+                    0 0 40px 10px #FA5858,
+                    0 0 80px 15px #F78181;
+            }
+            .violeta li:nth-of-type(5){
+                background: #8000FF;
+                box-shadow:
+                    0 0 20px 5px #9A2EFE,
+                    0 0 40px 10px #8258FA,
+                    0 0 80px 15px #9F81F7;
+            }
+
+            .etiqueta{
+                margin-top: 103px;
+            }
+
+            #idtexto{
+                font-family: 'digits';
+                font-size: 20px;
+                margin-top: 30px;
+                display: inline;
+                position: relative;
+                width: auto;
+                height: auto;
+                padding: 15px;
+                
+                border-top: 6px solid gray;
+                border-right: 6px solid gray;
+                border-left: 6px solid gray;
+                background: argb(255,255,255,0);                
+                border-radius: 20%;
+            }
+            
+            body {
+                background: #ccc;
+                padding: 0;
+                margin: 0;
+                text-align: center;
+            }
+
+        </style>
+
+    </head>
+    <body>
+
+        <div class="content">
+            <div class="row">
+                <div style="text-align: center; margin-top: 30px;">
+                    
+                    <div id="idtexto">12 </div>
+                    <br>
+                    <!-- Cambia el color en la clase por verde, naranja o rojo (también combinados) -->
+                    <ul class="semaforo verde" id="semafaro">
+                        <li><label class="etiqueta">VERDE</label></li>
+                        <li><label class="etiqueta">AMARILLO</label></li>
+                        <li><label class="etiqueta">NARANJA</label></li>
+                        <li><label class="etiqueta">ROJO</label></li>
+                        <li><label class="etiqueta">VIOLETA</label></li>
+                        <li id="idtexto"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <label>
+                    <input onclick="handleClick(this)" type="radio" name="editList" value="verde"/>VERDE
+                </label>
+                <label>
+                    <input onclick="handleClick(this)" type="radio" name="editList" value="amarillo"/>AMARILLO
+                </label>
+                <label>
+                    <input onclick="handleClick(this)" type="radio" name="editList" value="naranja"/>NARANJA
+                </label>
+                <label>
+                    <input onclick="handleClick(this)" type="radio" name="editList" value="rojo"/>ROJO
+                </label>
+                <label>
+                    <input onclick="handleClick(this)" type="radio" name="editList" value="violeta"/>VIOLETA
+                </label>
+
+            </div>
+        </div>
+
+        <script>
+            var clase = "verde";
+            function handleClick(myRadio) {
+                //document.getElementById("semafaro").removeAttribute("class") 
+                document.getElementById("semafaro").classList.remove(clase);
+                document.getElementById("semafaro").classList.add(myRadio.value);
+                clase = myRadio.value;
+            }
+        </script>
+    </body>
+</html>

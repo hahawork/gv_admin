@@ -1,0 +1,84 @@
+#alertDanger{
+	display: none;
+}
+#alertInfo{
+	display: none;
+}
+#alertWarning{
+	display: none;
+}
+#alertSuccess{
+	display: none;
+}
+
+
+#divContenedorPdV {display: block; width: 100%; height: auto;  border: 1px solid #000; margin-top: 10px; padding: 5px;}
+#subcontenedor1 { width: 50%; height: 100%;  background-color:#ccffff; float: left; overflow: auto; }
+#subcontenedor2 { width: 50%; height: 100%; min-width: 50px; background-color:#ffccff; float: left; overflow: auto; }
+#divContenedorPdV > header {
+	background: #3d3d3d;
+	padding: 5px;
+	margin: 3px;
+	color: #fff;
+	text-align: center;
+}
+#subcontenedor1 > header {
+	background: #3d3d3d;
+	padding: 5px;
+	margin: 3px;
+	color: #fff;
+	text-align: center;
+}
+#subcontenedor2 > header {
+	background: #3d3d3d;
+	padding: 5px;
+	margin: 3px;
+	color: #fff;
+	text-align: center;
+}
+
+img {
+	width: 50px;
+	border-radius: 50%;
+	height: 50px;
+	border: 1px solid #000;
+}
+.clientes{
+	border: 1px solid black;
+	min-height: 45px;
+	min-width: 45px;
+	padding: 3px;
+	display: inline-block;
+	overflow: hidden;
+}
+.producto{
+	display: inline-block;
+	overflow: hidden;
+	width: 50px;
+	font-size: 10px;
+	padding: 2px;
+	margin: 2px;			
+	height: 50px;
+	border: 1px solid #000;	
+	background: #fff;
+}
+
+#DIVproductoagregado{
+	width: 80px;
+	height: 50px;
+	font-size: 10px;
+	display: inline-block;
+	border-radius: 5px;
+	border: 1px solid;
+	overflow: hidden;
+	margin: 3px;
+}
+
+#divPdVConAsignacion{
+	border-radius: 5px;
+	border: 1px solid;
+	display: inline-block;
+	width: 100%;
+	margin: 3px 3px 3px 3px;
+	padding: 5px 5px 5px 5px;
+}

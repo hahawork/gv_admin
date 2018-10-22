@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>GV - Generar PowerPoint</title>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" name="viewport">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+        <style type="text/css">
+            body	{
+                margin: 0;
+                padding: 0;
+                text-align: center;
+                vertical-align: middle;
+                background-size: cover;
+            }		
+            .rounded{
+                border: 0px;
+                align-content: center;
+                vertical-align: middle;
+                background: #fff;
+                width: 100px;
+                height: 100px;
+            }
+            .margenFotos{
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+        </style>
+    </head>
+    <body onload="PintarFotos()">
+
+        <div class="container">
+
+            <section class="content">
+
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-12">
+                        <h1>Por Favor esperar a que se genere el archivo de powerpoint</h1>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6" >
+                        <div class="col-xs-12 col-sm-6">
+                            <img src="https://www.getroionline.com/hs-fs/hubfs/go-back.png?t=1510848785315&width=300&name=go-back.png" class="rounded col-xs-12 col-sm-6" width="100" height="100">
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label><a class="go-back col-xs-12 col-sm-6" href="javascript:history.go(-1)">Regresar &laquo;</a><br></label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6">
+                        <div class="col-xs-12 col-sm-6">
+                            <img src="https://i0.wp.com/truephantom.com/wp-content/uploads/2017/04/blue-home-page-icon-png-16.png?fit=904%2C960" class="rounded col-xs-12 col-sm-6" width="100" height="100">
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label><a class="go-home col-xs-12 col-sm-6" href="../index.php">Ir a Principal &raquo;</a></label>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div id="placehere">
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>            
+        </div>
+
+        <div id="botonDescarga" style="display: none;" class="margenFotos">Su archivo está preparado
+            <button onclick="GenerarPowerPointFile()">CLIC PARA DESCARGAR</button>            
+        </div>
+
+        <script type="text/javascript" src="../plugins/PptxGenJS/libs/jquery.min.js"></script>
+        <script type="text/javascript" src="../plugins/PptxGenJS/libs/jszip.min.js"></script>
+        <script type="text/javascript" src="../plugins/PptxGenJS/dist/pptxgen.js"></script>
+        <script type="text/javascript" src="../plugins/PptxGenJS/dist/pptxgen.bundle.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+        <script>
+
+                var API_de_compresion = "https://process.filestackapi.com/AhTgLagciQByzXpFGRI0Az/resize=w:1000/compress=metadata:true/";
+                var pathImage = "http://www.grupovalor.com.ni/ws/";
+                var ElementosPresentacionPPTX = JSON.parse(localStorage.getItem('ElementosPresentacionPPTX'));
+                var ElementosPresentacionPDV = JSON.parse(localStorage.getItem('ElementosPresentacionPDV'));
+                var ElementosPresentacionComent = JSON.parse(localStorage.getItem('ElementosPresentacionComent'));
+                var CantidadFotosGeneradas = 0;
+                var ImgCurrentHeight;
+                var ImgCurrentWidth;
+
+                function getImgSize(imgSrc)
+                {
+                    var dimensiones = [];
+                    var newImg = new Image();
+                    newImg.src = imgSrc;
+                    ImgCurrentHeight = newImg.height;
+                    ImgCurrentWidth = newImg.width;
+
+                    if (ImgCurrentHeight > ImgCurrentWidth) {
+                        dimensiones.push(3);
+                        dimensiones.push(4);
+                        return dimensiones;
+                    } else if (ImgCurrentHeight < ImgCurrentWidth) {
+                        dimensiones.push(4);
+                        dimensiones.push(3);
+                        return dimensiones;
+                    } else {
+                        dimensiones.push(4);
+                        dimensiones.push(4);
+                        return dimensiones;
+                    }
+
+
+                }
+
+                localStorage.removeItem('ElementosPresentacionPPTX');
+
+                if (!ElementosPresentacionPPTX.length == null) {
+                    window.location.href = '../';
+                }
+
+                function PintarFotos() {
+                    for (var i = 0; i < ElementosPresentacionPPTX.length; i++) {
+
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            cache: 'false',
+                            data: {imagen: ElementosPresentacionPPTX[i]},
+                            url: "ComprimirImagenes.php",
+                            beforeSend: function () {
+                                console.log("enviando... " + ElementosPresentacionPPTX[i]);
+                            },
+                            success: function (res) {
+
+                                if (res.success == 1) {
+                                    console.log("guardado... " + res.pathImage);
+                                    var elem = document.createElement("img");
+                                    elem.setAttribute("src", res.pathImage);
+                                    //console.log(pathImage + ElementosPresentacionPPTX[i]);
+                                    //elem.setAttribute("height", "100");
+                                    //elem.setAttribute("width", "100");
+                                    elem.setAttribute("alt", "Flower");
+                                    elem.setAttribute("class", "img-thumbnail col-sm-6 col-md-3 col-lg-2 margenFotos");
+                                    document.getElementById("placehere").appendChild(elem);
+                                } else {
+                                    console.log("Fallo al guardar. " + res.error);
+                                }
+
+                                CantidadFotosGeneradas++;
+                                if (CantidadFotosGeneradas == ElementosPresentacionPPTX.length) {
+                                    document.getElementById("botonDescarga").style.display = "block";
+                                }
+                            },
+                            error: function (res) {},
+                            always: function (res) {}
+                        });
+
+                    }
+                }
+                function GenerarPowerPointFile() {
+
+                    var pptx = new PptxGenJS();
+                    pptx.setAuthor('GV Informatica.');
+                    pptx.setCompany('GrupoValor Nic.');
+                    pptx.setRevision('1');
+                    pptx.setSubject('Reporte Solicitado.');
+                    pptx.setTitle('Presentacion.');
+
+                    for (var i = 0; i < ElementosPresentacionPPTX.length; i += 2) {
+                        var slide = pptx.addNewSlide();
+                        slide.back = 'F1F1F1';
+                        slide.color = '696969';
+                        //slide.slideNumber({x: 1.0, y: '90%'});
+                        // Slide Numbers can be styled:
+                        slide.addText(ElementosPresentacionPDV[i], {x: 0.7, y: 0.5, font_size: 12, color: '363636'});
+                        slide.addText(ElementosPresentacionPDV[i + 1], {x: 5.1, y: 0.5, font_size: 12, color: '363636'});
+
+                        slide.slideNumber({x: 0.5, y: '95%', fontFace: 'Courier', fontSize: 10, color: 'CF0101'});
+                        var img1 = ElementosPresentacionPPTX[i];
+                        var img2 = ElementosPresentacionPPTX[i + 1];
+                        var dimen1 = getImgSize(ElementosPresentacionPPTX[i]);
+                        var dimen2 = getImgSize(ElementosPresentacionPPTX[i + 1]);
+
+                        slide
+                                .addImage({path: img1, x: 0.7, y: 1, w: dimen1[0], h: dimen1[1]})
+                                .addImage({path: img2, x: 5.1, y: 1, w: dimen2[0], h: dimen2[1]});
+                        /*slide.addImage({path: '1.jpg', x: 0.7, y: 1, w: 4, h: 4})
+                         .addImage({path: '2.jpg', x: 5.1, y: 1, w: 4, h: 4});*/
+                        slide.addText(ElementosPresentacionComent[i], {x: 0.7, y: 5, font_size: 8, color: '363636'});
+                        slide.addText(ElementosPresentacionComent[i + 1], {x: 5.1, y: 5, font_size: 8, color: '363636'});
+                    }
+
+                    /* var slide = pptx.addNewSlide();
+                     slide.addText('Demo-03: Table', {x: 0.5, y: 0.25, font_size: 18, font_face: 'Arial', color: '0088CC'});
+                     // TABLE 1: Single-row table
+                     // --------
+                     var rows = ['Cell 1', 'Cell 2', 'Cell 3'];
+                     var tabOpts = {x: 0.5, y: 1.0, w: 9.0, fill: 'F7F7F7', font_size: 14, color: '363636'};
+                     slide.addTable(rows, tabOpts);
+                     
+                     // TABLE 2: Multi-row table (each rows array element is an array of cells)
+                     // --------
+                     var rows = [
+                     ['A1', 'B1', 'C1'],
+                     ['A2', 'B2', 'C2']
+                     ];
+                     var tabOpts = {x: 0.5, y: 2.0, w: 9.0, fill: 'F7F7F7', font_size: 18, color: '6f9fc9'};
+                     slide.addTable(rows, tabOpts);
+                     
+                     // TABLE 3: Formatting at a cell level - use this to selectively override table's cell options
+                     // --------
+                     var rows = [
+                     [
+                     {text: 'Top Lft', options: {valign: 't', align: 'l', font_face: 'Arial'}},
+                     {text: 'Top Ctr', options: {valign: 't', align: 'c', font_face: 'Verdana'}},
+                     {text: 'Top Rgt', options: {valign: 't', align: 'r', font_face: 'Courier'}}
+                     ],
+                     ];
+                     var tabOpts = {x: 0.5, y: 4.5, w: 9.0, rowH: 0.6, fill: 'F7F7F7', font_size: 18, color: '6f9fc9', valign: 'm'};
+                     slide.addTable(rows, tabOpts);
+                     
+                     // Multiline Text / Line Breaks - use either "\r" or "\n"
+                     slide.addTable(['Line 1\nLine 2\nLine 3'], {x: 2, y: 3, w: 4});
+                     
+                     
+                     
+                     pptx.setLayout('LAYOUT_WIDE');
+                     
+                     pptx.defineSlideMaster({
+                     title: 'MASTER_SLIDE',
+                     bkgd: 'FFFFFF',
+                     objects: [
+                     {'line': {x: 3.5, y: 1.00, w: 6.00, line: '0088CC', line_size: 5}},
+                     {'rect': {x: 0.0, y: 5.30, w: '100%', h: 0.75, fill: 'F1F1F1'}},
+                     {'text': {text: 'Status Report', options: {x: 3.0, y: 5.30, w: 5.5, h: 0.75}}},
+                     {'image': {x: 11.3, y: 6.40, w: 1.67, h: 0.75, path: '1.png'}}
+                     ],
+                     slideNumber: {x: 0.3, y: '90%'}
+                     });
+                     
+                     var slide = pptx.addNewSlide('MASTER_SLIDE');
+                     slide.addText('How To Create PowerPoint Presentations with JavaScript', {x: 0.5, y: 0.7, font_size: 18});
+                     */
+                    pptx.save('PRESENTACION_REPORTE_' + getTimestamp());
+                }
+
+                function getTimestamp() {
+                    var dateNow = new Date();
+                    var dateMM = dateNow.getMonth() + 1;
+                    dateDD = dateNow.getDate();
+                    dateYY = dateNow.getFullYear(), h = dateNow.getHours();
+                    m = dateNow.getMinutes();
+                    return dateNow.getFullYear() + '' + (dateMM <= 9 ? '0' + dateMM : dateMM) + '' + (dateDD <= 9 ? '0' + dateDD : dateDD) + (h <= 9 ? '0' + h : h) + (m <= 9 ? '0' + m : m);
+                }
+        </script>
+    </body>
+</html>
